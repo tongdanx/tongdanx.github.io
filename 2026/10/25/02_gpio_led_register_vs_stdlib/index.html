@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>从寄存器到标准库：STM32 GPIO点亮LED的两种方式 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="这是我 STM32 系列笔记的第2篇文章。 上一篇介绍了如何建立模板，这一篇基于STM32工程模板：从零搭建你的代码地基中搭建的工程模板实现GPIO点亮LED，并对比寄存器与标准库两种开发方式。 硬件原理PA0控制LED，低电平驱动 LED负极接PA0口，LED正极接3.3V 当PA0低电平时，LED正负极有压降差，LED正向导通，灯亮 基于寄存器开发打开时钟  在系统结构图里面，GPIO是挂在A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从寄存器到标准库：STM32 GPIO点亮LED的两种方式">
+<meta property="og:url" content="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这是我 STM32 系列笔记的第2篇文章。 上一篇介绍了如何建立模板，这一篇基于STM32工程模板：从零搭建你的代码地基中搭建的工程模板实现GPIO点亮LED，并对比寄存器与标准库两种开发方式。 硬件原理PA0控制LED，低电平驱动 LED负极接PA0口，LED正极接3.3V 当PA0低电平时，LED正负极有压降差，LED正向导通，灯亮 基于寄存器开发打开时钟  在系统结构图里面，GPIO是挂在A">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+<meta property="article:published_time" content="2026-10-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-25T12:12:13.848Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="GPIO">
+<meta property="article:tag" content="寄存器">
+<meta property="article:tag" content="标准库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%9B%BE.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-02_gpio_led_register_vs_stdlib" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/10/25/02_gpio_led_register_vs_stdlib/" class="article-date">
+  <time class="dt-published" datetime="2026-10-24T16:00:00.000Z" itemprop="datePublished">2026-10-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/STM32/">STM32</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      从寄存器到标准库：STM32 GPIO点亮LED的两种方式
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>这是我 STM32 系列笔记的第2篇文章。</p>
+<p>上一篇介绍了如何建立模板，这一篇基于<a href="/2026/09/06/01_stm32_project_template/" title="STM32工程模板：从零搭建你的代码地基">STM32工程模板：从零搭建你的代码地基</a>中搭建的工程模板实现GPIO点亮LED，并对比寄存器与标准库两种开发方式。</p>
+<h2 id="硬件原理"><a href="#硬件原理" class="headerlink" title="硬件原理"></a>硬件原理</h2><p>PA0控制LED，低电平驱动</p>
+<p>LED负极接PA0口，LED正极接3.3V</p>
+<p>当PA0低电平时，LED正负极有压降差，LED正向导通，灯亮</p>
+<h2 id="基于寄存器开发"><a href="#基于寄存器开发" class="headerlink" title="基于寄存器开发"></a>基于寄存器开发</h2><h3 id="打开时钟"><a href="#打开时钟" class="headerlink" title="打开时钟"></a>打开时钟</h3><img src="/2026/10/25/02_gpio_led_register_vs_stdlib/%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%9B%BE.png" class="" title="GPIO挂在APB2总线上">
+
+<p>在系统结构图里面，GPIO是挂在APB2上的，所以时钟配置应该选在APB2总线</p>
+<p>APB1和APB2的区别：APB1操作速度限于36MHz，APB2操作于全速(最高72MHz)。</p>
+<p>查询数据手册：APB2ENR的位2控制PA口，所以位2设置为1，也就是1 &lt;&lt;  2，所以是</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCC-&gt;APB2ENR |= <span class="number">4</span>;<span class="comment">//启动外设时钟</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置模式"><a href="#配置模式" class="headerlink" title="配置模式"></a>配置模式</h3><p>推挽输出，50MHz</p>
+<p>LED接在PA0口，属于低位，所以应该用GPIO的CRL寄存器</p>
+<p>查询数据手册：CRL的低四位设置为0x0011时，模式为50MHz的推挽输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIOA-&gt;CRL = (GPIOA-&gt;CRL &amp; <span class="number">0xFFFFFF00</span>) | <span class="number">0x11</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置电平"><a href="#设置电平" class="headerlink" title="设置电平"></a>设置电平</h3><p>低电平亮灯</p>
+<p>查询数据手册：GPIO的BSRR寄存器位16为1时，可以清除PA0口的电平，使之为低电平，也就是0x10000</p>
+<p>因为 BSRR 是只写寄存器，读它没有意义，所以直接赋值</p>
+<p>BSRR 写入 0 无效果，所以不需要先清零</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIOA-&gt;BSRR = <span class="number">0x10000</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="基于标准库开发"><a href="#基于标准库开发" class="headerlink" title="基于标准库开发"></a>基于标准库开发</h2><h3 id="时钟使能–RCC-APB2PeriphClockCmd"><a href="#时钟使能–RCC-APB2PeriphClockCmd" class="headerlink" title="时钟使能–RCC_APB2PeriphClockCmd"></a>时钟使能–RCC_APB2PeriphClockCmd</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数：需要操作的时钟外设</p>
+<p>第二个参数：状态</p>
+<h3 id="初始化GPIO–GPIO-Init"><a href="#初始化GPIO–GPIO-Init" class="headerlink" title="初始化GPIO–GPIO_Init"></a>初始化GPIO–GPIO_Init</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIO_Init(GPIOA, &amp;GPIO_InitStruct);</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数：需要初始化的GPIO</p>
+<p>第二个参数：GPIO的配置结构体–GPIO_InitTypeDef</p>
+<h4 id="GPIO-InitTypeDef"><a href="#GPIO-InitTypeDef" class="headerlink" title="GPIO_InitTypeDef"></a>GPIO_InitTypeDef</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line"></span><br><span class="line">GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;<span class="comment">//输出模式：推挽输出</span></span><br><span class="line">GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;<span class="comment">//PIN口：0口</span></span><br><span class="line">GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;<span class="comment">//最大输出速度：50MHz</span></span><br></pre></td></tr></table></figure>
+
+<p>GPIO_Mode： 配置模式</p>
+<p>GPIO_Pin ：GPIO口</p>
+<p>GPIO_Speed ：配置速度</p>
+<h3 id="设置GPIO值为低电平–GPIO-ResetBits"><a href="#设置GPIO值为低电平–GPIO-ResetBits" class="headerlink" title="设置GPIO值为低电平–GPIO_ResetBits"></a>设置GPIO值为低电平–GPIO_ResetBits</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIO_ResetBits(GPIOA, GPIO_Pin_0);</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数：GPIO</p>
+<p>第二个参数：需要设置为低电平的GPIO口</p>
+<h2 id="思考总结"><a href="#思考总结" class="headerlink" title="思考总结"></a>思考总结</h2><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>我在实验过程中，发现两种模式下屏蔽掉设置电平步骤的代码后，小灯居然可以正常亮，按道理来说</p>
+<p>电平未设置为低电平，小灯应该是不亮的</p>
+<h4 id="猜想"><a href="#猜想" class="headerlink" title="猜想"></a>猜想</h4><p>然后我就研究数据手册，发现GPIO的ODR寄存器的复位值是0，意味着什么？</p>
+<p>意味着在复位状态下，输出模式时，GPIO口输出低电平，所以在未设置电平的情况下，小灯也是可以亮的</p>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>为了验证该猜想是否正确，我就在设置电平前把GPIO的ODR寄存器的低16位每一位都设置为1了，然后未进行后续的PA0口电平设置，发现小灯不亮，后续再单独对PA0口进行电平设置，将其设置为低电平后，小灯就正常亮了，所以该猜想成立</p>
+<p>此处之所以是在设置电平前设置GPIO的ODR的值，是因为ODR 的值要真正驱动到引脚上，前提是时钟已使能、模式已配置为输出</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>因为GPIO的ODR寄存器复位值是0，输出模式下，ODR的复位值被驱动到引脚，所以在未设置PA0口为低电平时，小灯能正常亮</p>
+<h2 id="两种方式对比"><a href="#两种方式对比" class="headerlink" title="两种方式对比"></a>两种方式对比</h2><table>
+<thead>
+<tr>
+<th align="left">对比维度</th>
+<th align="left">基于寄存器开发</th>
+<th align="left">基于标准库开发</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">代码量</td>
+<td align="left">少，但是需要手动计算寄存器的值</td>
+<td align="left">多，但是容易懂</td>
+</tr>
+<tr>
+<td align="left">可读性</td>
+<td align="left">差，需要阅读数据手册</td>
+<td align="left">好，函数名称可以很直观的看出功能</td>
+</tr>
+<tr>
+<td align="left">上手难度</td>
+<td align="left">高</td>
+<td align="left">低</td>
+</tr>
+<tr>
+<td align="left">对硬件的理解</td>
+<td align="left">深入</td>
+<td align="left">浅</td>
+</tr>
+<tr>
+<td align="left">适合场景</td>
+<td align="left">学习原理，理解硬件</td>
+<td align="left">项目开发，快速实现</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/" data-id="cuid-wQGo59mOihjOBfEQHMQn" data-title="从寄存器到标准库：STM32 GPIO点亮LED的两种方式" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GPIO/" rel="tag">GPIO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" rel="tag">寄存器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">标准库</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2026/09/06/01_stm32_project_template/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">STM32工程模板：从零搭建你的代码地基</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/STM32/">STM32</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/GPIO/" rel="tag">GPIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM32/" rel="tag">STM32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%A5%E9%97%A8/" rel="tag">入门</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" rel="tag">寄存器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF/" rel="tag">工程模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">标准库</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/GPIO/" style="font-size: 10px;">GPIO</a> <a href="/tags/STM32/" style="font-size: 10px;">STM32</a> <a href="/tags/%E5%85%A5%E9%97%A8/" style="font-size: 10px;">入门</a> <a href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" style="font-size: 10px;">寄存器</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">工程模板</a> <a href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 10px;">标准库</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">October 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">September 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/10/25/02_gpio_led_register_vs_stdlib/">从寄存器到标准库：STM32 GPIO点亮LED的两种方式</a>
+          </li>
+        
+          <li>
+            <a href="/2026/09/06/01_stm32_project_template/">STM32工程模板：从零搭建你的代码地基</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
