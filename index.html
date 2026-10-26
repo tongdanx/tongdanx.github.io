@@ -111,8 +111,8 @@
 
 <h3 id="配置模式"><a href="#配置模式" class="headerlink" title="配置模式"></a>配置模式</h3><p>推挽输出，50MHz</p>
 <p>LED接在PA0口，属于低位，所以应该用GPIO的CRL寄存器</p>
-<p>查询数据手册：CRL的低四位设置为0x0011时，模式为50MHz的推挽输出</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIOA-&gt;CRL = (GPIOA-&gt;CRL &amp; <span class="number">0xFFFFFF00</span>) | <span class="number">0x11</span>;</span><br></pre></td></tr></table></figure>
+<p>查询数据手册：CRL的低四位设置为0b0011也就是0x03时，模式为50MHz的推挽输出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIOA-&gt;CRL = (GPIOA-&gt;CRL &amp; <span class="number">0xFFFFFFF0</span>) | <span class="number">0x03</span>;</span><br></pre></td></tr></table></figure>
 
 <h3 id="设置电平"><a href="#设置电平" class="headerlink" title="设置电平"></a>设置电平</h3><p>低电平亮灯</p>
 <p>查询数据手册：GPIO的BSRR寄存器位16为1时，可以清除PA0口的电平，使之为低电平，也就是0x10000</p>
@@ -182,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/" data-id="cuid-wQGo59mOihjOBfEQHMQn" data-title="从寄存器到标准库：STM32 GPIO点亮LED的两种方式" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/" data-id="cuidnkxwi57fuZCvAhM_Ka_GF" data-title="从寄存器到标准库：STM32 GPIO点亮LED的两种方式" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -366,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/09/06/01_stm32_project_template/" data-id="cuidrN6h7tLWM3AaoTYa7PvrC" data-title="STM32工程模板：从零搭建你的代码地基" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/09/06/01_stm32_project_template/" data-id="cuidpB8Smo5AemYx1QgpUV9AY" data-title="STM32工程模板：从零搭建你的代码地基" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
