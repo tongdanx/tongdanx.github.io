@@ -1,490 +1,219 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>我的嵌入式学习之旅</title><meta name="author" content="tongdanx"><meta name="copyright" content="tongdanx"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="我的嵌入式学习之旅">
+<meta property="og:url" content="https://tongdanx.github.io/index.html">
+<meta property="og:site_name" content="我的嵌入式学习之旅">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://tongdanx.github.io/img/butterfly-icon.png">
+<meta property="article:author" content="tongdanx">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 8.1.2"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
+<meta name="twitter:image" content="https://tongdanx.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "我的嵌入式学习之旅",
+  "alternateName": [
+    "tongdanx.github.io"
+  ],
+  "url": "https://tongdanx.github.io/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://tongdanx.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
 
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-02_gpio_led_register_vs_stdlib" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/10/25/02_gpio_led_register_vs_stdlib/" class="article-date">
-  <time class="dt-published" datetime="2026-10-24T16:00:00.000Z" itemprop="datePublished">2026-10-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/STM32/">STM32</a>
-  </div>
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/10/25/02_gpio_led_register_vs_stdlib/">从寄存器到标准库：STM32 GPIO点亮LED的两种方式</a>
-    </h1>
-  
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
       
-        <p>这是我 STM32 系列笔记的第2篇文章。</p>
-<p>上一篇介绍了如何建立模板，这一篇基于<a href="/2026/09/06/01_stm32_project_template/" title="STM32工程模板：从零搭建你的代码地基">STM32工程模板：从零搭建你的代码地基</a>中搭建的工程模板实现GPIO点亮LED，并对比寄存器与标准库两种开发方式。</p>
-<h2 id="硬件原理"><a href="#硬件原理" class="headerlink" title="硬件原理"></a>硬件原理</h2><p>PA0控制LED，低电平驱动</p>
-<p>LED负极接PA0口，LED正极接3.3V</p>
-<p>当PA0低电平时，LED正负极有压降差，LED正向导通，灯亮</p>
-<h2 id="基于寄存器开发"><a href="#基于寄存器开发" class="headerlink" title="基于寄存器开发"></a>基于寄存器开发</h2><h3 id="打开时钟"><a href="#打开时钟" class="headerlink" title="打开时钟"></a>打开时钟</h3><img src="/2026/10/25/02_gpio_led_register_vs_stdlib/%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%9B%BE.png" class="" title="GPIO挂在APB2总线上">
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
 
-<p>在系统结构图里面，GPIO是挂在APB2上的，所以时钟配置应该选在APB2总线</p>
-<p>APB1和APB2的区别：APB1操作速度限于36MHz，APB2操作于全速(最高72MHz)。</p>
-<p>查询数据手册：APB2ENR的位2控制PA口，所以位2设置为1，也就是1 &lt;&lt;  2，所以是</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCC-&gt;APB2ENR |= <span class="number">4</span>;<span class="comment">//启动外设时钟</span></span><br></pre></td></tr></table></figure>
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
 
-<h3 id="配置模式"><a href="#配置模式" class="headerlink" title="配置模式"></a>配置模式</h3><p>推挽输出，50MHz</p>
-<p>LED接在PA0口，属于低位，所以应该用GPIO的CRL寄存器</p>
-<p>查询数据手册：CRL的低四位设置为0b0011也就是0x03时，模式为50MHz的推挽输出</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIOA-&gt;CRL = (GPIOA-&gt;CRL &amp; <span class="number">0xFFFFFFF0</span>) | <span class="number">0x03</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置电平"><a href="#设置电平" class="headerlink" title="设置电平"></a>设置电平</h3><p>低电平亮灯</p>
-<p>查询数据手册：GPIO的BSRR寄存器位16为1时，可以清除PA0口的电平，使之为低电平，也就是0x10000</p>
-<p>因为 BSRR 是只写寄存器，读它没有意义，所以直接赋值</p>
-<p>BSRR 写入 0 无效果，所以不需要先清零</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIOA-&gt;BSRR = <span class="number">0x10000</span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="基于标准库开发"><a href="#基于标准库开发" class="headerlink" title="基于标准库开发"></a>基于标准库开发</h2><h3 id="时钟使能–RCC-APB2PeriphClockCmd"><a href="#时钟使能–RCC-APB2PeriphClockCmd" class="headerlink" title="时钟使能–RCC_APB2PeriphClockCmd"></a>时钟使能–RCC_APB2PeriphClockCmd</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数：需要操作的时钟外设</p>
-<p>第二个参数：状态</p>
-<h3 id="初始化GPIO–GPIO-Init"><a href="#初始化GPIO–GPIO-Init" class="headerlink" title="初始化GPIO–GPIO_Init"></a>初始化GPIO–GPIO_Init</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIO_Init(GPIOA, &amp;GPIO_InitStruct);</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数：需要初始化的GPIO</p>
-<p>第二个参数：GPIO的配置结构体–GPIO_InitTypeDef</p>
-<h4 id="GPIO-InitTypeDef"><a href="#GPIO-InitTypeDef" class="headerlink" title="GPIO_InitTypeDef"></a>GPIO_InitTypeDef</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line"></span><br><span class="line">GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;<span class="comment">//输出模式：推挽输出</span></span><br><span class="line">GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;<span class="comment">//PIN口：0口</span></span><br><span class="line">GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;<span class="comment">//最大输出速度：50MHz</span></span><br></pre></td></tr></table></figure>
-
-<p>GPIO_Mode： 配置模式</p>
-<p>GPIO_Pin ：GPIO口</p>
-<p>GPIO_Speed ：配置速度</p>
-<h3 id="设置GPIO值为低电平–GPIO-ResetBits"><a href="#设置GPIO值为低电平–GPIO-ResetBits" class="headerlink" title="设置GPIO值为低电平–GPIO_ResetBits"></a>设置GPIO值为低电平–GPIO_ResetBits</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GPIO_ResetBits(GPIOA, GPIO_Pin_0);</span><br></pre></td></tr></table></figure>
-
-<p>第一个参数：GPIO</p>
-<p>第二个参数：需要设置为低电平的GPIO口</p>
-<h2 id="思考总结"><a href="#思考总结" class="headerlink" title="思考总结"></a>思考总结</h2><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>我在实验过程中，发现两种模式下屏蔽掉设置电平步骤的代码后，小灯居然可以正常亮，按道理来说</p>
-<p>电平未设置为低电平，小灯应该是不亮的</p>
-<h4 id="猜想"><a href="#猜想" class="headerlink" title="猜想"></a>猜想</h4><p>然后我就研究数据手册，发现GPIO的ODR寄存器的复位值是0，意味着什么？</p>
-<p>意味着在复位状态下，输出模式时，GPIO口输出低电平，所以在未设置电平的情况下，小灯也是可以亮的</p>
-<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><p>为了验证该猜想是否正确，我就在设置电平前把GPIO的ODR寄存器的低16位每一位都设置为1了，然后未进行后续的PA0口电平设置，发现小灯不亮，后续再单独对PA0口进行电平设置，将其设置为低电平后，小灯就正常亮了，所以该猜想成立</p>
-<p>此处之所以是在设置电平前设置GPIO的ODR的值，是因为ODR 的值要真正驱动到引脚上，前提是时钟已使能、模式已配置为输出</p>
-<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>因为GPIO的ODR寄存器复位值是0，输出模式下，ODR的复位值被驱动到引脚，所以在未设置PA0口为低电平时，小灯能正常亮</p>
-<h2 id="两种方式对比"><a href="#两种方式对比" class="headerlink" title="两种方式对比"></a>两种方式对比</h2><table>
-<thead>
-<tr>
-<th align="left">对比维度</th>
-<th align="left">基于寄存器开发</th>
-<th align="left">基于标准库开发</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">代码量</td>
-<td align="left">少，但是需要手动计算寄存器的值</td>
-<td align="left">多，但是容易懂</td>
-</tr>
-<tr>
-<td align="left">可读性</td>
-<td align="left">差，需要阅读数据手册</td>
-<td align="left">好，函数名称可以很直观的看出功能</td>
-</tr>
-<tr>
-<td align="left">上手难度</td>
-<td align="left">高</td>
-<td align="left">低</td>
-</tr>
-<tr>
-<td align="left">对硬件的理解</td>
-<td align="left">深入</td>
-<td align="left">浅</td>
-</tr>
-<tr>
-<td align="left">适合场景</td>
-<td align="left">学习原理，理解硬件</td>
-<td align="left">项目开发，快速实现</td>
-</tr>
-</tbody></table>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/10/25/02_gpio_led_register_vs_stdlib/" data-id="cuidnkxwi57fuZCvAhM_Ka_GF" data-title="从寄存器到标准库：STM32 GPIO点亮LED的两种方式" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/GPIO/" rel="tag">GPIO</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" rel="tag">寄存器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">标准库</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-01_stm32_project_template" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2026/09/06/01_stm32_project_template/" class="article-date">
-  <time class="dt-published" datetime="2026-09-05T16:00:00.000Z" itemprop="datePublished">2026-09-06</time>
-</a>
+      const theme = saveToLocal.get('theme')
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/STM32/">STM32</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/09/06/01_stm32_project_template/">STM32工程模板：从零搭建你的代码地基</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>这是我 STM 32 系列笔记的第1篇文章。后续所有代码均基于本文搭建的工程模板。 </p>
-<h2 id="为什么需要工程模板？"><a href="#为什么需要工程模板？" class="headerlink" title="为什么需要工程模板？"></a>为什么需要工程模板？</h2><p>学习 STM32 的过程中，每开始一个新实验（比如 GPIO、USART、定时器），都需要重复做同样的事情：<strong>新建工程、拷贝固件库、配置环境</strong>。这个过程繁琐且容易出错。</p>
-<p>如果每次都从头开始，不仅浪费时间，还容易因为漏掉某个文件而导致编译失败。所以，<strong>提前搭建好一个“空模板”</strong>，后续所有实验都从这个模板拷贝，是高效开发的关键。</p>
-<p>下面提供两种模板：<strong>标准库模板</strong>适用于日常项目开发，代码可读性高；<strong>寄存器模板</strong>更精简，适合用来学习底层原理。你可以根据自己的学习阶段和需求来选择。</p>
-<hr>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>在开始之前，请确保以下软件或文件存在：</p>
-<table>
-<thead>
-<tr>
-<th align="left">软件或文件</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><strong>Keil MDK</strong></td>
-<td align="left">STM32 的主流开发环境（本文使用 Keil uVision5）</td>
-</tr>
-<tr>
-<td align="left"><strong>STM32F10x_StdPeriph_Lib_V3.5.0</strong></td>
-<td align="left">固件库，我的是江协科技下载的</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="方案一：基于标准库的工程模板"><a href="#方案一：基于标准库的工程模板" class="headerlink" title="方案一：基于标准库的工程模板"></a>方案一：基于标准库的工程模板</h2><h3 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h3><p>在电脑上新建一个文件夹，命名为<code>01_stm32_model</code>，这是我的工程根目录</p>
-<p>然后再新建一个文件夹，命名为<code>public</code>，这是我放STM32的核心文件的文件夹</p>
-<p>然后再建子目录</p>
-<p>01_stm32_model&#x2F;<br> ├── user&#x2F; # 用户代码（main.c 等）<br> ├── DebugConfig&#x2F; # Keil 自动生成，无需手动创建<br> ├── Listings&#x2F; # Keil 自动生成，无需手动创建<br> └── Objects&#x2F; # Keil 自动生成，无需手动创建</p>
-<p>public&#x2F;<br> ├── inc&#x2F; # 标准外设驱动的库函数的头文件<br> ├── project&#x2F; # 配置库文件的头文件的包含关系的文件、用来参数检查的函数的定义的文件、存放中断函数的文件<br> ├── src&#x2F; # 标准外设驱动的库函数的源文件<br> └── start&#x2F; # 启动文件、内核寄存器描述文件、外设寄存器描述文件、配置时钟文件</p>
-<h3 id="拷贝核心文件"><a href="#拷贝核心文件" class="headerlink" title="拷贝核心文件"></a>拷贝核心文件</h3><table>
-<thead>
-<tr>
-<th>源文件路径（在固件库中）</th>
-<th>复制到工程目录</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport\</code> 下的内核寄存器描述文件</td>
-<td><code>start/</code></td>
-</tr>
-<tr>
-<td><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\</code> 下的启动文件</td>
-<td><code>start/</code></td>
-</tr>
-<tr>
-<td><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\</code> 下的外设寄存器描述文件以及配置时钟文件</td>
-<td><code>start/</code></td>
-</tr>
-<tr>
-<td><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\STM32F10x_StdPeriph_Driver\inc\</code> 下的标准外设驱动的库函数的头文件</td>
-<td><code>inc/</code></td>
-</tr>
-<tr>
-<td><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\STM32F10x_StdPeriph_Driver\src\</code> 下的标准外设驱动的库函数的源文件</td>
-<td><code>src/</code></td>
-</tr>
-<tr>
-<td><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Project\STM32F10x_StdPeriph_Template\</code> 下的配置库文件的头文件的包含关系的文件、用来参数检查的函数的定义的文件、存放中断函数的文件</td>
-<td><code>project/</code></td>
-</tr>
-</tbody></table>
-<h3 id="创建main-c文件"><a href="#创建main-c文件" class="headerlink" title="创建main.c文件"></a>创建main.c文件</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stm32f10x.h&quot;</span>                  <span class="comment">// Device header</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);</span><br><span class="line"></span><br><span class="line">    GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_Out_PP;</span><br><span class="line">    GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;</span><br><span class="line">    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;</span><br><span class="line"></span><br><span class="line">    GPIO_Init(GPIOC, &amp;GPIO_InitStruct);</span><br><span class="line">    GPIO_SetBits(GPIOC, GPIO_Pin_13);</span><br><span class="line">    <span class="comment">//GPIO_ResetBits(GPIOC, GPIO_Pin_13);</span></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Keil配置"><a href="#Keil配置" class="headerlink" title="Keil配置"></a>Keil配置</h3><ol>
-<li><p>打开 Keil，点击 <strong>Project → New uVision Project</strong>，选择 <code>01_stm32_model/</code> 目录，工程名为 <code>01_stm32_model</code>。</p>
-</li>
-<li><p>芯片选择 <strong>STM32F103C8</strong>（根据你的实际芯片型号选择）。</p>
-</li>
-<li><p>点击工程管理器（<code>Manage Project Items</code>），添加以下组：</p>
-<ul>
-<li><p><code>user</code>：添加 <code>main.c</code></p>
-</li>
-<li><p><code>start</code>：添加<code>public/start/</code>下的启动文件以及所有的<code>.c</code>和<code>.h</code>文件</p>
-</li>
-<li><p><code>inc</code>：添加 <code>public/inc/</code> 下的所有 <code>.h</code> 文件</p>
-</li>
-<li><p><code>src</code>：添加 <code>public/src</code> 下的所有 <code>.c</code> 文件</p>
-</li>
-<li><p><code>project</code>：添加 <code>public/project</code> 下的所有 <code>.c</code> 和<code>.h</code>文件</p>
-</li>
-</ul>
-</li>
-<li><p>点击魔术棒（<code>Options for Target</code>），在 <strong>C&#x2F;C++</strong> 选项卡中：</p>
-<ul>
-<li><p>添加宏定义：<code>USE_STDPERIPH_DRIVER</code></p>
-</li>
-<li><p>添加头文件路径：<code>public/start/</code>、<code>public/inc/</code>、<code>public/project/</code></p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="编译测试"><a href="#编译测试" class="headerlink" title="编译测试"></a>编译测试</h3><p>点击编译按钮，如果没有报错，说明工程模板搭建成功。</p>
-<h2 id="方案二：基于寄存器的工程模板"><a href="#方案二：基于寄存器的工程模板" class="headerlink" title="方案二：基于寄存器的工程模板"></a>方案二：基于寄存器的工程模板</h2><h3 id="工程目录-1"><a href="#工程目录-1" class="headerlink" title="工程目录"></a>工程目录</h3><p>在电脑上新建一个文件夹，命名为<code>01_stm32_model</code>，这是我的工程根目录</p>
-<p>然后再新建一个文件夹，命名为<code>public</code>，这是我放STM32的核心文件的文件夹</p>
-<p>然后再建子目录</p>
-<p>01_stm32_model&#x2F;<br> ├── user&#x2F; # 用户代码（main.c 等）<br> ├── DebugConfig&#x2F; # Keil 自动生成，无需手动创建<br> ├── Listings&#x2F; # Keil 自动生成，无需手动创建<br> └── Objects&#x2F; # Keil 自动生成，无需手动创建</p>
-<p>public&#x2F;<br> └── start&#x2F; # 启动文件、内核寄存器描述文件、外设寄存器描述文件、配置时钟文件</p>
-<h3 id="拷贝核心文件-1"><a href="#拷贝核心文件-1" class="headerlink" title="拷贝核心文件"></a>拷贝核心文件</h3><table>
-<thead>
-<tr>
-<th align="left">源文件路径（在固件库中）</th>
-<th align="left">复制到工程目录</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\CoreSupport\</code> 下的内核寄存器描述文件</td>
-<td align="left"><code>start/</code></td>
-</tr>
-<tr>
-<td align="left"><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\startup\arm\</code> 下的启动文件</td>
-<td align="left"><code>start/</code></td>
-</tr>
-<tr>
-<td align="left"><code>.\STM32F10x_StdPeriph_Lib_V3.5.0\Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F10x\</code> 下的外设寄存器描述文件以及配置时钟文件</td>
-<td align="left"><code>start/</code></td>
-</tr>
-</tbody></table>
-<h3 id="创建main-c文件-1"><a href="#创建main-c文件-1" class="headerlink" title="创建main.c文件"></a>创建main.c文件</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stm32f10x.h&quot;</span>                  <span class="comment">// Device header</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//寄存器操作</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    RCC-&gt;APB2ENR = <span class="number">0x00000010</span>;</span><br><span class="line">    GPIOC-&gt;CRH = <span class="number">0x00300000</span>;</span><br><span class="line">    <span class="comment">//GPIOC-&gt;ODR = 0x00002000;</span></span><br><span class="line">    GPIOC-&gt;ODR = <span class="number">0x00000000</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="Keil配置-1"><a href="#Keil配置-1" class="headerlink" title="Keil配置"></a>Keil配置</h3><ul>
-<li><p>打开 Keil，点击 <strong>Project → New uVision Project</strong>，选择 <code>01_stm32_model/</code> 目录，工程名为 <code>01_stm32_model</code>。</p>
-</li>
-<li><p>芯片选择 <strong>STM32F103C8</strong>（根据你的实际芯片型号选择）。</p>
-</li>
-<li><p>点击工程管理器（<code>Manage Project Items</code>），添加以下组：</p>
-<ul>
-<li><p><code>user</code>：添加 <code>main.c</code></p>
-</li>
-<li><p><code>start</code>：添加<code>public/start/</code>下的启动文件以及所有的<code>.c</code>和<code>.h</code>文件</p>
-</li>
-</ul>
-</li>
-<li><p>点击魔术棒（<code>Options for Target</code>），在 <strong>C&#x2F;C++</strong> 选项卡中：</p>
-<ul>
-<li>添加头文件路径：<code>public/start/</code></li>
-</ul>
-</li>
-</ul>
-<h3 id="编译测试-1"><a href="#编译测试-1" class="headerlink" title="编译测试"></a>编译测试</h3><p>点击编译按钮，如果没有报错，说明工程模板搭建成功。</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>拷贝 <code>01_stm32_model/</code>模板文件夹就好了， <code>public/</code>公共文件夹不用拷贝，工程文件里面直接是添加了公共文件夹的包含，所以不需要拷贝</p>
-<p>下一篇将基于本文的工程模板，实现 GPIO 点亮 LED，并对比寄存器和标准库两种实现方式。</p>
-
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2026/09/06/01_stm32_project_template/" data-id="cuidpB8Smo5AemYx1QgpUV9AY" data-title="STM32工程模板：从零搭建你的代码地基" class="article-share-link"><span class="fa fa-share">Share</span></a>
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '我的嵌入式学习之旅',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">我的嵌入式学习之旅</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><h1 class="title-seo">我的嵌入式学习之旅</h1></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/10/25/02_gpio_led_register_vs_stdlib/" title="从寄存器到标准库：STM32 GPIO点亮LED的两种方式">从寄存器到标准库：STM32 GPIO点亮LED的两种方式</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-10-24T16:00:00.000Z" title="发表于 2026-10-25 00:00:00">2026-10-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/STM32/">STM32</a></span></div><div class="content">这是我 STM32 系列笔记的第2篇文章。 上一篇介绍了如何建立模板，这一篇基于STM32工程模板：从零搭建你的代码地基中搭建的工程模板实现GPIO点亮LED，并对比寄存器与标准库两种开发方式。 硬件原理PA0控制LED，低电平驱动 LED负极接PA0口，LED正极接3.3V 当PA0低电平时，LED正负极有压降差，LED正向导通，灯亮 基于寄存器开发打开时钟  在系统结构图里面，GPIO是挂在APB2上的，所以时钟配置应该选在APB2总线 APB1和APB2的区别：APB1操作速度限于36MHz，APB2操作于全速(最高72MHz)。 查询数据手册：APB2ENR的位2控制PA口，所以位2设置为1，也就是1 &lt;&lt;  2，所以是 1RCC-&gt;APB2ENR |= 4;//启动外设时钟  配置模式推挽输出，50MHz LED接在PA0口，属于低位，所以应该用GPIO的CRL寄存器 查询数据手册：CRL的低四位设置为0b0011也就是0x03时，模式为50MHz的推挽输出 1GPIOA-&gt;CRL = (GPIOA-&gt;CRL &amp; 0xFFFFFFF...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/06/01_stm32_project_template/" title="STM32工程模板：从零搭建你的代码地基">STM32工程模板：从零搭建你的代码地基</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2026-09-05T16:00:00.000Z" title="发表于 2026-09-06 00:00:00">2026-09-06</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/STM32/">STM32</a></span></div><div class="content">这是我 STM 32 系列笔记的第1篇文章。后续所有代码均基于本文搭建的工程模板。  为什么需要工程模板？学习 STM32 的过程中，每开始一个新实验（比如 GPIO、USART、定时器），都需要重复做同样的事情：新建工程、拷贝固件库、配置环境。这个过程繁琐且容易出错。 如果每次都从头开始，不仅浪费时间，还容易因为漏掉某个文件而导致编译失败。所以，提前搭建好一个“空模板”，后续所有实验都从这个模板拷贝，是高效开发的关键。 下面提供两种模板：标准库模板适用于日常项目开发，代码可读性高；寄存器模板更精简，适合用来学习底层原理。你可以根据自己的学习阶段和需求来选择。  准备工作在开始之前，请确保以下软件或文件存在：    软件或文件 说明    Keil MDK STM32 的主流开发环境（本文使用 Keil uVision5）   STM32F10x_StdPeriph_Lib_V3.5.0 固件库，我的是江协科技下载的    方案一：基于标准库的工程模板工程目录在电脑上新建一个文件夹，命名为01_stm32_model，这是我的工程根目录 然后再新建一个文件夹，命名为public，...</div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">tongdanx</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">记录 STM32 与嵌入式的学习之路</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/25/02_gpio_led_register_vs_stdlib/" title="从寄存器到标准库：STM32 GPIO点亮LED的两种方式">从寄存器到标准库：STM32 GPIO点亮LED的两种方式</a><time datetime="2026-10-24T16:00:00.000Z" title="发表于 2026-10-25 00:00:00">2026-10-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/06/01_stm32_project_template/" title="STM32工程模板：从零搭建你的代码地基">STM32工程模板：从零搭建你的代码地基</a><time datetime="2026-09-05T16:00:00.000Z" title="发表于 2026-09-06 00:00:00">2026-09-06</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/STM32/"><span class="card-category-list-name">STM32</span><span class="card-category-list-count">2</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E5%85%A5%E9%97%A8/" style="font-size: 1.1em; color: #999">入门</a> <a href="/tags/GPIO/" style="font-size: 1.1em; color: #999">GPIO</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF/" style="font-size: 1.1em; color: #999">工程模板</a> <a href="/tags/STM32/" style="font-size: 1.1em; color: #999">STM32</a> <a href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 1.1em; color: #999">标准库</a> <a href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" style="font-size: 1.1em; color: #999">寄存器</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div>
+  
+    <ul class="card-archive-list">
       
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/10/">
+            <span class="card-archive-list-date">
+              十月 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
       
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/09/">
+            <span class="card-archive-list-date">
+              九月 2026
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/STM32/" rel="tag">STM32</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%A5%E9%97%A8/" rel="tag">入门</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF/" rel="tag">工程模板</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/STM32/">STM32</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/GPIO/" rel="tag">GPIO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM32/" rel="tag">STM32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%A5%E9%97%A8/" rel="tag">入门</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" rel="tag">寄存器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF/" rel="tag">工程模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" rel="tag">标准库</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/GPIO/" style="font-size: 10px;">GPIO</a> <a href="/tags/STM32/" style="font-size: 10px;">STM32</a> <a href="/tags/%E5%85%A5%E9%97%A8/" style="font-size: 10px;">入门</a> <a href="/tags/%E5%AF%84%E5%AD%98%E5%99%A8/" style="font-size: 10px;">寄存器</a> <a href="/tags/%E5%B7%A5%E7%A8%8B%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">工程模板</a> <a href="/tags/%E6%A0%87%E5%87%86%E5%BA%93/" style="font-size: 10px;">标准库</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/10/">October 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/09/">September 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2026/10/25/02_gpio_led_register_vs_stdlib/">从寄存器到标准库：STM32 GPIO点亮LED的两种方式</a>
-          </li>
-        
-          <li>
-            <a href="/2026/09/06/01_stm32_project_template/">STM32工程模板：从零搭建你的代码地基</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">2</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总浏览量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-10-27T14:32:22.169Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By tongdanx</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.7.0"></script><script src="/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
